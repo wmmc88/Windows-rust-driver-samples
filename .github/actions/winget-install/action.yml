@@ -48,4 +48,5 @@ runs:
 
     - name: Install winget Powershell Module
       shell: pwsh
-      run: Install-Module -Name Microsoft.WinGet.Client -Repository PSGallery -Force
+      # Pin version to avoid "Operation is not supported on this platform. (0x80131539)" bug: https://github.com/microsoft/winget-cli/issues/4829
+      run: Install-Module -Name Microsoft.WinGet.Client -Repository PSGallery -Force -RequiredVersion 1.9.2411
