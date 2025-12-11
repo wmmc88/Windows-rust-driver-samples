@@ -10,14 +10,13 @@ name: Lint
 jobs:
   clippy:
     name: Clippy
-    runs-on: windows-2025
     permissions:
       checks: write
     strategy:
       fail-fast: false # Allow all matrix variants to complete even if some fail
       matrix:
         runner:
-          - name: windows-2025
+          - name: windows-latest
             arch: amd64
           - name: windows-11-arm
             arch: arm64
@@ -102,7 +101,7 @@ jobs:
         run: cargo +${{ matrix.rust_toolchain }} clippy --locked --profile ${{ matrix.cargo_profile }} --target ${{ matrix.target_triple.name }} --all-targets --features nightly -- -D warnings
   machete:
     name: Detect Unused Cargo Dependencies
-    runs-on: windows-2025
+    runs-on: windows-latest
     strategy:
       matrix:
         wdk:
