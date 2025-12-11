@@ -23,7 +23,10 @@ jobs:
             arch: arm64
 
         wdk:
-          - 10.0.22621 # NI WDK
+          - version: 10.0.22621 # NI WDK
+            source: winget
+          - version: 10.0.26100 # GE WDK
+            source: nuget
 
         llvm:
           - 17.0.6
@@ -38,8 +41,10 @@ jobs:
           - release
 
         target_triple:
-          - x86_64-pc-windows-msvc
-          - aarch64-pc-windows-msvc
+          - name: x86_64-pc-windows-msvc
+            arch: amd64
+          - name: aarch64-pc-windows-msvc
+            arch: arm64
 
     runs-on: ${{ matrix.runner.name }}
     steps:
@@ -74,26 +79,27 @@ jobs:
         with:
           version: ${{ matrix.llvm }}
 
-      - name: Install WDK (${{ matrix.wdk }})
+      - name: Install WDK (${{ matrix.wdk.version }})
         uses: ./.github/actions/install-wdk
         with:
-          version: ${{ matrix.wdk }}
-          source: winget
+          version: ${{ matrix.wdk.version }}
+          source: ${{ matrix.wdk.source }}
+          host: ${{ matrix.wdk.source == 'nuget' && matrix.runner.arch || '' }}
+          target: ${{ matrix.wdk.source == 'nuget' && matrix.target_triple.arch || '' }}
 
       - name: Install Rust Toolchain (${{ matrix.rust_toolchain }})
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.rust_toolchain }}
           components: clippy
-          targets: ${{ matrix.target_triple }}
+          targets: ${{ matrix.target_triple.name }}
 
       - name: Run Cargo Clippy
-        run: cargo +${{ matrix.rust_toolchain }} clippy --locked --profile ${{ matrix.cargo_profile }} --target ${{ matrix.target_triple }} --all-targets -- -D warnings
+        run: cargo +${{ matrix.rust_toolchain }} clippy --locked --profile ${{ matrix.cargo_profile }} --target ${{ matrix.target_triple.name }} --all-targets -- -D warnings
 
       - name: Run Cargo Clippy (--features nightly)
         if: matrix.rust_toolchain == 'nightly'
-        run: cargo +${{ matrix.rust_toolchain }} clippy --locked --profile ${{ matrix.cargo_profile }} --target ${{ matrix.target_triple }} --all-targets --features nightly -- -D warnings
-
+        run: cargo +${{ matrix.rust_toolchain }} clippy --locked --profile ${{ matrix.cargo_profile }} --target ${{ matrix.target_triple.name }} --all-targets --features nightly -- -D warnings
   machete:
     name: Detect Unused Cargo Dependencies
     runs-on: windows-2025
