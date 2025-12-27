@@ -5,7 +5,7 @@ on:
   pull_request:
   merge_group:
   schedule: # Trigger a job on default branch at 4AM PST everyday
-    - cron: "0 11 * * *"
+    - cron: '0 11 * * *'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.compare || github.head_ref || github.ref }}
@@ -75,11 +75,8 @@ jobs:
       - name: Install Winget
         uses: ./.github/actions/install-winget
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Install Winget PowerShell Module
-        shell: pwsh
-        run: Install-Module -Name Microsoft.WinGet.Client -Repository PSGallery -Force
+          # windows-11-arm runner image does not include winget-cli (see https://github.com/actions/partner-runner-images/issues/95).
+          force-cli-install: ${{ matrix.runner.name == 'windows-11-arm' && 'true' || 'false' }}
 
       - name: Install LLVM ${{ matrix.llvm }}
         uses: ./.github/actions/install-llvm
