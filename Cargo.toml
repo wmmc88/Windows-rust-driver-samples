@@ -27,8 +27,8 @@ lto = true
 [workspace.dependencies]
 anyhow = "1.0.103"
 paste = "1.0.14"
-wdk = { version = "0.5.0", default-features = false }
-wdk-alloc = { version = "0.4.2", default-features = false }
-wdk-build = { version = "0.6.0", default-features = false }
-wdk-panic = { version = "0.5.0", default-features = false }
-wdk-sys = { version = "0.5.2", default-features = false }
+wdk = "0.5.0"
+wdk-alloc = "0.4.2"
+wdk-build = "0.6.0"
+wdk-panic = "0.5.0"
+wdk-sys = "0.5.2"
