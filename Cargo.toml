@@ -25,8 +25,8 @@ panic = "abort"
 lto = true
 
 [workspace.dependencies]
-anyhow = "1.0.103"
-paste = "1.0.14"
+anyhow = "1.0.104"
+paste = "1.0.15"
 wdk = "0.5.0"
 wdk-alloc = "0.4.2"
 wdk-build = "0.6.0"

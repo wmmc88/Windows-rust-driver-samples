@@ -28,31 +28,33 @@ use std::{env, error::Error, ffi::OsString, os::windows::prelude::*, sync::RwLoc
 
 use once_cell::sync::Lazy;
 use uuid::{uuid, Uuid};
-use windows_sys::Win32::{
-    Devices::DeviceAndDriverInstallation,
-    Foundation::{
-        CloseHandle,
-        GetLastError,
-        BOOL,
-        ERROR_IO_PENDING,
-        FALSE,
-        HANDLE,
-        INVALID_HANDLE_VALUE,
-    },
-    Storage::FileSystem::{
-        CreateFileW,
-        ReadFile,
-        WriteFile,
-        FILE_FLAG_OVERLAPPED,
-        FILE_GENERIC_READ,
-        FILE_GENERIC_WRITE,
-        FILE_SHARE_READ,
-        FILE_SHARE_WRITE,
-        OPEN_EXISTING,
-    },
-    System::{
-        Threading::INFINITE,
-        IO::{CreateIoCompletionPort, GetQueuedCompletionStatus, OVERLAPPED, OVERLAPPED_0},
+use windows_sys::{
+    core::BOOL,
+    Win32::{
+        Devices::DeviceAndDriverInstallation,
+        Foundation::{
+            CloseHandle,
+            GetLastError,
+            ERROR_IO_PENDING,
+            FALSE,
+            HANDLE,
+            INVALID_HANDLE_VALUE,
+        },
+        Storage::FileSystem::{
+            CreateFileW,
+            ReadFile,
+            WriteFile,
+            FILE_FLAG_OVERLAPPED,
+            FILE_GENERIC_READ,
+            FILE_GENERIC_WRITE,
+            FILE_SHARE_READ,
+            FILE_SHARE_WRITE,
+            OPEN_EXISTING,
+        },
+        System::{
+            Threading::INFINITE,
+            IO::{CreateIoCompletionPort, GetQueuedCompletionStatus, OVERLAPPED, OVERLAPPED_0},
+        },
     },
 };
 
