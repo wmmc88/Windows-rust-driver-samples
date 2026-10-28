@@ -29,11 +29,10 @@ jobs:
             Apache-2.0,
             BSD-3-Clause,
             ISC,
-            Unicode-DFS-2016
+            Unicode-DFS-2016,
+            Unicode-3.0
           # anstyle@1.0.4 is licensed as (MIT OR Apache-2.0), but the Github api fails to detect it: https://github.com/rust-cli/anstyle/tree/main/crates/anstyle
-          # AND combinations are currently bugged (https://github.com/actions/dependency-review-action/issues/263):
-          # * unicode-ident@1.0.27   License: (MIT OR Apache-2.0) AND Unicode-3.0
-          allow-dependencies-licenses: 'pkg:cargo/anstyle@1.0.4, pkg:cargo/unicode-ident@1.0.27'
+          allow-dependencies-licenses: 'pkg:cargo/anstyle@1.0.4'
           comment-summary-in-pr: on-failure
           # Explicit refs required for merge_group and push triggers:
           # https://github.com/actions/dependency-review-action/issues/456
